@@ -173,7 +173,7 @@ def eliminar_estudiante(root, frame_actual, notebook, FONDO_GENERAL, style, tree
             con.close()
             return
 
-        id_usuario = estudiante["id_usuario"]
+        id_usuario = estudiante[0]
 
       
         cur.execute("DELETE FROM Voluntariados_Estudiantes WHERE id_estudiante = %s", (id_usuario,))
