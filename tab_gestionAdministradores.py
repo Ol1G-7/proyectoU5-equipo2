@@ -52,11 +52,8 @@ def obtener_datos_administradores():
 
 
 def iniciar_modulo_administradores(frame_contenido):
-    # Limpia el contenido anterior si es necesario
     for widget in frame_contenido.winfo_children():
         widget.destroy()
-
-    # Y luego llama a la pantalla principal en ese frame
     mostrar_pantalla_principal(frame_contenido)
 
 def limpiar_frame(frame):
@@ -72,18 +69,12 @@ def insertar_administrador(nombre, apellido_paterno, apellido_materno, correo, t
             database="TopicosProyectoDB"
         )
         cursor = con.cursor()
-
-        # Paso 1: Insertar en Usuarios
         query_usuario = """
             INSERT INTO Usuarios (id_tipo_usuario, nombre, apellido_paterno, apellido_materno, correo, telefono, fecha_registro, usuario, password, status)
             VALUES (%s, %s, %s, %s, %s, %s, NOW(), %s, %s, %s)
         """
         cursor.execute(query_usuario, (1, nombre, apellido_paterno, apellido_materno, correo, telefono, usuario, password, status))
-
-        # Obtener el ID del nuevo usuario
         id_usuario = cursor.lastrowid
-
-        # Paso 2: Insertar en Administradores
         query_admin = """
             INSERT INTO Administradores (id_usuario, id_departamento, status)
             VALUES (%s, %s, %s)
@@ -109,7 +100,6 @@ def actualizar_administrador(id_usuario, nombre, apellido_paterno, apellido_mate
         )
         cursor = con.cursor()
 
-        # Paso 1: Actualizar tabla Usuarios
         query_usuarios = """
             UPDATE Usuarios 
             SET nombre = %s, 
@@ -125,7 +115,6 @@ def actualizar_administrador(id_usuario, nombre, apellido_paterno, apellido_mate
         valores_usuarios = (nombre, apellido_paterno, apellido_materno, correo, telefono, usuario, password, status, id_usuario)
         cursor.execute(query_usuarios, valores_usuarios)
 
-        # Paso 2: Actualizar tabla Administradores
         query_admins = """
             UPDATE Administradores 
             SET id_departamento = %s,
@@ -154,10 +143,8 @@ def eliminar_administrador(id_usuario, frame):
         )
         cursor = con.cursor()
 
-        # Paso 1: Eliminar de Administradores
         cursor.execute("DELETE FROM Administradores WHERE id_usuario = %s", (id_usuario,))
 
-        # Paso 2: Eliminar de Usuarios
         cursor.execute("DELETE FROM Usuarios WHERE id = %s", (id_usuario,))
 
         con.commit()
@@ -183,7 +170,6 @@ def guardar_administrador(nombre, apellido_paterno, apellido_materno, correo, te
         )
         cursor = con.cursor()
 
-        # Paso 1: Insertar en Usuarios
         query_usuarios = """
             INSERT INTO Usuarios (id_tipo_usuario, nombre, apellido_paterno, apellido_materno, correo, telefono, usuario, password, status)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -191,10 +177,8 @@ def guardar_administrador(nombre, apellido_paterno, apellido_materno, correo, te
         valores_usuarios = (1, nombre, apellido_paterno, apellido_materno, correo, telefono, usuario, password, estatus)
         cursor.execute(query_usuarios, valores_usuarios)
 
-        # Obtener el ID del nuevo usuario
         id_usuario = cursor.lastrowid
 
-        # Paso 2: Insertar en Administradores
         query_admin = "INSERT INTO Administradores (id_usuario, id_departamento, status) VALUES (%s, %s, %s)"
         cursor.execute(query_admin, (id_usuario, departamento_id, estatus))
 
@@ -212,7 +196,6 @@ def mostrar_pantalla_principal(frame):
 
     tk.Label(frame, text="Módulo de Gestión de Administradores", font=("Arial", 16, "bold"), bg=FONDO_GENERAL).pack(pady=10)
 
-    # Búsqueda
     busqueda_frame = tk.Frame(frame, bg=FONDO_GENERAL)
     busqueda_frame.pack(pady=5)
     tk.Label(busqueda_frame, text="Buscar por ID o Nombre del Administrador:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(side="left")
@@ -221,7 +204,6 @@ def mostrar_pantalla_principal(frame):
 
     entrada_busqueda.bind("<KeyRelease>", lambda event: filtrar_administradores())
 
-    # Tabla
     tabla_frame = tk.Frame(frame)
     tabla_frame.pack(expand=True, fill="both", padx=10, pady=10)
 
@@ -275,12 +257,10 @@ def mostrar_pantalla_agregar(frame):
 
     frame.config(bg=FONDO_GENERAL)
 
-    # Configurar columnas para centrar el contenido
-    frame.columnconfigure(0, weight=1)  # espacio izquierdo flexible
-    frame.columnconfigure(1, weight=1)  # espacio derecho flexible
+    frame.columnconfigure(0, weight=1)
+    frame.columnconfigure(1, weight=1)
 
     titulo = tk.Label(frame, text="Agregar Administrador", font=("Arial", 18, "bold"), bg=FONDO_GENERAL, fg="#333333")
-    # El título ocupa ambas columnas, centrado
     titulo.grid(row=0, column=0, columnspan=2, pady=(15, 25), sticky="nsew")
 
     departamentos = obtener_datos_departamentos()
@@ -299,7 +279,6 @@ def mostrar_pantalla_agregar(frame):
 
     entradas = {}
 
-    # Etiquetas a la derecha, entradas a la izquierda pero todo centrado en columnas balanceadas
     for i, (label_text, var) in enumerate(campos, start=1):
         etiqueta = ttk.Label(frame, text=label_text + ":", font=('Segoe UI', 11))
         etiqueta.grid(row=i, column=0, sticky="e", padx=(0, 10), pady=8)
@@ -382,7 +361,6 @@ def editar_registro(frame, tree):
         return
     item = tree.item(seleccion)
     datos = item['values']
-    # Aquí abres una ventana o formulario con los datos para editar
     mostrar_pantalla_editar(frame, datos)
 
 def mostrar_pantalla_editar(frame, datos):
@@ -390,7 +368,6 @@ def mostrar_pantalla_editar(frame, datos):
 
     tk.Label(frame, text="Editar Administrador", font=("Arial", 16, "bold"), bg=FONDO_GENERAL).pack(pady=10)
 
-    # Campos que sí tienes:
     campos_text = [
         "Nombre", "Apellido Paterno", "Apellido Materno",
         "Correo", "Teléfono", "Departamento", "Estatus (1=Activo, 0=Inactivo)"
@@ -398,7 +375,6 @@ def mostrar_pantalla_editar(frame, datos):
 
     entradas = {}
 
-    # Carga lista de departamentos (id, nombre)
     departamentos = obtener_datos_departamentos()
     nombres_departamentos = [d[1] for d in departamentos]
 
@@ -408,8 +384,7 @@ def mostrar_pantalla_editar(frame, datos):
             var = tk.StringVar()
             combo = ttk.Combobox(frame, values=nombres_departamentos, textvariable=var, state="readonly")
             combo.pack(pady=5)
-            # Seleccionar el departamento actual por nombre:
-            departamento_actual = datos[6]  # índice 6 es el nombre departamento
+            departamento_actual = datos[6] 
             if departamento_actual in nombres_departamentos:
                 var.set(departamento_actual)
             else:
@@ -419,7 +394,6 @@ def mostrar_pantalla_editar(frame, datos):
             var = tk.StringVar()
             entry = tk.Entry(frame, textvariable=var)
             entry.pack(pady=5)
-            # Mapear índices de datos a campos_text:
             indice_map = {
                 "Nombre": 1,
                 "Apellido Paterno": 2,
@@ -438,8 +412,6 @@ def mostrar_pantalla_editar(frame, datos):
         try:
             telefono = int(entradas["Teléfono"].get())
             estatus = int(entradas["Estatus (1=Activo, 0=Inactivo)"].get())
-
-            # Obtener id del departamento seleccionado
             depto_nombre_seleccionado = entradas["Departamento"].get()
             id_depto = None
             for d in departamentos:
@@ -454,9 +426,8 @@ def mostrar_pantalla_editar(frame, datos):
                 entradas["Apellido Materno"].get(),
                 entradas["Correo"].get(),
                 telefono,
-                # Si necesitas usuario y contraseña, debes obtenerlos de otro modo, aquí no los tienes
-                "",  # usuario vacío, o el que tengas si lo guardas
-                "",  # contraseña vacía
+                "",
+                "",
                 id_depto,
                 estatus,
                 frame
