@@ -20,11 +20,9 @@ def obtener_datos_responsables():
         con.close()
 
 def iniciar_modulo_responsables(frame_contenido):
-    # Limpia el contenido anterior si es necesario
     for widget in frame_contenido.winfo_children():
         widget.destroy()
 
-    # Y luego llama a la pantalla principal en ese frame
     mostrar_pantalla_principal(frame_contenido)
 
 def limpiar_frame(frame):
@@ -118,7 +116,6 @@ def mostrar_pantalla_principal(frame):
 
     tk.Label(frame, text="Módulo de Gestión de Responsables", font=("Arial", 16, "bold"), bg=FONDO_GENERAL).pack(pady=10)
 
-    # Búsqueda
     busqueda_frame = tk.Frame(frame, bg=FONDO_GENERAL)
     busqueda_frame.pack(pady=5)
     tk.Label(busqueda_frame, text="Buscar por ID o Nombre del Responsable:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(side="left")
@@ -127,7 +124,6 @@ def mostrar_pantalla_principal(frame):
 
     entrada_busqueda.bind("<KeyRelease>", lambda event: filtrar_proyectos())
     
-    # Tabla
     tabla_frame = tk.Frame(frame)
     tabla_frame.pack(expand=True, fill="both", padx=10, pady=10)
 
@@ -162,7 +158,6 @@ def mostrar_pantalla_principal(frame):
 
     mostrar_proyectos()
 
-    # Botones
     frame_btns = tk.Frame(frame, bg=FONDO_GENERAL)
     frame_btns.pack(pady=10)
 
@@ -230,7 +225,6 @@ def eliminar_registro(tree, frame):
         return
     item = tree.item(seleccion)
     datos = item['values']
-    # Confirmar eliminación
     confirmar = messagebox.askyesno("Confirmar", f"¿Quieres eliminar el registro {datos[1]}?")
     if confirmar:
         eliminar_responsable(datos[0], frame)
@@ -242,7 +236,6 @@ def editar_registro(frame, tree):
         return
     item = tree.item(seleccion)
     datos = item['values']
-    # Aquí abres una ventana o formulario con los datos para editar
     mostrar_pantalla_editar(frame, datos)
 
 def mostrar_pantalla_editar(frame, datos):
@@ -265,7 +258,7 @@ def mostrar_pantalla_editar(frame, datos):
         var = tk.StringVar()
         entry = tk.Entry(frame, textvariable=var)
         entry.pack(pady=5)
-        var.set(str(datos[i + 1]))  # datos[0] = id, los demás son los campos
+        var.set(str(datos[i + 1])) 
         variables.append(var)
 
     id_colaborador = datos[0]
@@ -274,12 +267,12 @@ def mostrar_pantalla_editar(frame, datos):
         try:
             actualizar_responsable(
                 id_colaborador,
-                variables[0].get(),  # nombre
-                variables[1].get(),  # apellido_paterno
-                variables[2].get(),  # apellido_materno
-                int(variables[3].get()),  # telefono
-                variables[4].get(),  # correo
-                int(variables[5].get()),  # estatus
+                variables[0].get(),  
+                variables[1].get(),  
+                variables[2].get(),  
+                int(variables[3].get()),  
+                variables[4].get(),  
+                int(variables[5].get()),  
                 frame
             )
         except ValueError:
