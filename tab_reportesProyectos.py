@@ -23,7 +23,7 @@ def actualizar_datos(event):
     if resultado:
         id_vol, descripcion, fecha_inicio_val, fecha_fin_val = resultado
         global id_seleccionado
-        id_seleccionado = id_vol  # Guardas el ID para uso posterior
+        id_seleccionado = id_vol 
 
         desc_text.delete("1.0", "end")
         desc_text.insert("1.0", descripcion)
@@ -54,7 +54,6 @@ def cargar_nombres_proyectos():
     if nombres:
         combo_proyecto.set(nombres[0])
     
-    # Agrega la opción por defecto
     nombres.insert(0, "Seleccionar...")  
     combo_proyecto['values'] = nombres
     combo_proyecto.set("Seleccionar...")
@@ -96,7 +95,6 @@ def crear_tab_reportesProyectos(notebook):
 
     tk.Label(frame, text="Reportes de Proyectos", font=("Arial", 16, "bold"), bg=FONDO_GENERAL).pack(pady=10)
 
-    # Contenedor centrado para fila1
     contenedor_fila1 = tk.Frame(frame, bg=FONDO_GENERAL)
     contenedor_fila1.pack(pady=5)
     fila1 = tk.Frame(contenedor_fila1, bg=FONDO_GENERAL)
@@ -115,7 +113,6 @@ def crear_tab_reportesProyectos(notebook):
     desc_text = tk.Text(fila1, height=2, width=50, wrap="word")
     desc_text.pack(side="left", padx=5)
 
-    # Contenedor centrado para fila2
     contenedor_fila2 = tk.Frame(frame, bg=FONDO_GENERAL)
     contenedor_fila2.pack(pady=5)
     fila2 = tk.Frame(contenedor_fila2, bg=FONDO_GENERAL)
@@ -131,7 +128,6 @@ def crear_tab_reportesProyectos(notebook):
     fecha_fin = tk.Entry(fila2, width=15)
     fecha_fin.pack(side="left", padx=5)
 
-    # ---- TABLA DE PARTICIPANTES ----
     tabla_frame = tk.Frame(frame)
     tabla_frame.pack(pady=15, fill="x")
 
@@ -143,7 +139,6 @@ def crear_tab_reportesProyectos(notebook):
         tree.heading(col, text=col)
         tree.column(col, width=180, anchor="center")
 
-    # Scrollbar
     scroll = ttk.Scrollbar(tabla_frame, orient="vertical", command=tree.yview)
     tree.configure(yscrollcommand=scroll.set)
     scroll.pack(side="right", fill="y")
