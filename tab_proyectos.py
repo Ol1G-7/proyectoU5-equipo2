@@ -62,14 +62,14 @@ def crear_tab_proyectos(notebook):
 def crear_contenido_tab_proyectos(frame):
     tk.Label(frame, text="Módulo de Gestión de Proyectos", font=("Arial", 16, "bold"), bg=FONDO_GENERAL).pack(pady=10)
     
-    # Búsqueda
+    
     busqueda_frame = tk.Frame(frame, bg=FONDO_GENERAL)
     busqueda_frame.pack(pady=5)
     tk.Label(busqueda_frame, text="Buscar por ID o Nombre del Proyecto:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(side="left")
     entrada_busqueda = tk.Entry(busqueda_frame)
     entrada_busqueda.pack(side="left", padx=5)
 
-    # Tabla
+    
     tabla_frame = tk.Frame(frame)
     tabla_frame.pack(expand=True, fill="both", padx=10, pady=10)
 
@@ -118,7 +118,7 @@ def crear_contenido_tab_proyectos(frame):
 
     tk.Button(busqueda_frame, text="Buscar", command=filtrar_proyectos).pack(side="left", padx=5)
 
-    # Evento para mostrar objetivo o rellenar textos
+    
     def manejar_click(evento):
         item = tree.identify_row(evento.y)
         columna = tree.identify_column(evento.x)
@@ -127,7 +127,7 @@ def crear_contenido_tab_proyectos(frame):
             id_vol = int(valores[0])
             col_index = int(columna[1:]) - 1  # de "#3" a 2
 
-            # Mostrar objetivo si se hace doble clic en la columna "Objetivo"
+            
             if col_index == 2:
                 objetivo = textos_extra[id_vol]["objetivo"]
                 messagebox.showinfo("Objetivo del Voluntariado", objetivo)
@@ -177,14 +177,14 @@ def mostrar_formulario_direccion(frame, id_voluntariado, callback=None):
     municipios = obtener_municipios()
     direccion_existente = obtener_direccion_voluntariado(id_voluntariado)
     
-    # NAVBAR
+    
     navbar = tk.Frame(frame, bg="#3C88CF", height=60)
     navbar.pack(side="top", fill="x")
     tk.Label(navbar, text="📍", font=("Arial", 24), bg="#3C88CF", fg="white").pack(side="left", padx=20)
     tk.Label(navbar, text="Dirección del Voluntariado", font=("Arial", 14, "bold"),
              bg="#3C88CF", fg="white").pack(side="left")
 
-    # Contenedor del formulario
+    
     form_frame = tk.Frame(frame, bg="white", padx=40, pady=30, bd=2, relief="groove")
     form_frame.pack(padx=40, pady=20, fill="x")
 
@@ -209,7 +209,7 @@ def mostrar_formulario_direccion(frame, id_voluntariado, callback=None):
             entry.grid(row=row, column=1, sticky="ew", padx=5, pady=5)
             campos[label] = entry
 
-    # Llenar datos existentes si hay
+    
     if direccion_existente:
         campos["Calle"].insert(0, direccion_existente[0])
         campos["Número"].insert(0, direccion_existente[1])
@@ -238,7 +238,7 @@ def mostrar_formulario_direccion(frame, id_voluntariado, callback=None):
         except Exception as e:
             messagebox.showerror("Error", f"Error al guardar: {str(e)}")
 
-    # Botones
+    
     boton_frame = tk.Frame(frame, bg=FONDO_GENERAL)
     boton_frame.pack(pady=20)
     
@@ -388,14 +388,14 @@ def mostrar_formulario_voluntariado(frame, datos_existentes=None):
     colaboradores = obtener_colaboradores()
     tipos = obtener_tipos()
 
-    # NAVBAR
+    
     navbar = tk.Frame(frame, bg="#3C88CF", height=60)
     navbar.pack(side="top", fill="x")
     tk.Label(navbar, text="🧩", font=("Arial", 24), bg="#3C88CF", fg="white").pack(side="left", padx=20)
     tk.Label(navbar, text="Agregar/Editar Voluntariado", font=("Arial", 14, "bold"),
              bg="#3C88CF", fg="white").pack(side="left")
 
-    # Contenedor del formulario con estilo
+    
     form_frame = tk.Frame(frame, bg="white", padx=40, pady=30, bd=2, relief="groove")
     form_frame.pack(padx=40, pady=20, fill="x")
 
@@ -412,7 +412,7 @@ def mostrar_formulario_voluntariado(frame, datos_existentes=None):
         ("Status", tk.Entry),
     ]
 
-    # Campos de Fecha
+    
     fila_fecha = tk.Frame(form_frame, bg="white")
     fila_fecha.grid(row=5, column=0, columnspan=4, sticky="w", padx=5, pady=5)
 
@@ -542,7 +542,7 @@ def mostrar_formulario_voluntariado(frame, datos_existentes=None):
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
-    # Botones inferiores
+   
     boton_frame = tk.Frame(frame, bg=FONDO_GENERAL)
     boton_frame.pack(pady=20)
     ttk.Button(boton_frame, text="Guardar ✅", style="Green.TButton", command=guardar).pack(side="left", padx=15)
@@ -566,7 +566,7 @@ def guardar_direccion_voluntariado(id_voluntariado, datos_direccion):
         con = mysql.connector.connect(host="localhost", user="root", password="", database="TopicosProyectoDB")
         cursor = con.cursor()
         
-        # Verificar si ya existe una dirección para este voluntariado
+        
         cursor.execute("SELECT 1 FROM Direcciones_Voluntariados WHERE id_voluntariado = %s", (id_voluntariado,))
         existe = cursor.fetchone()
         
