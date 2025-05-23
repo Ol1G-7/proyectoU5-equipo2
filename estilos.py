@@ -51,9 +51,9 @@ def aplicar_estilos(root):
                 background="#ffc107", foreground="black", borderwidth=2)
     style.map("Yellow.TButton", background=[("active", "#e0a800")])
 
-    return style  # ✅ NECESARIO para que lo uses luego
+    return style  
 
-# estilos.py
+
 FONDO_GENERAL = "#f7f9fc"
 FUENTE_TITULO = ("Segoe UI", 14, "bold")
 FUENTE_ETIQUETA = ("Segoe UI", 10)
