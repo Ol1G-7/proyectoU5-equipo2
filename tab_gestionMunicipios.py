@@ -24,7 +24,6 @@ def obtener_datos_municipios():
     finally:
         con.close()
 
-# Para el combobox de estados en la pantalla de agregar/editar municipio
 def obtener_estados():
     try:
         con = mysql.connector.connect(
@@ -41,11 +40,9 @@ def obtener_estados():
         con.close()
         
 def iniciar_modulo_municipios(frame_contenido):
-    # Limpia el contenido anterior si es necesario
     for widget in frame_contenido.winfo_children():
         widget.destroy()
 
-    # Y luego llama a la pantalla principal en ese frame
     mostrar_pantalla_principal(frame_contenido)
 
 def limpiar_frame(frame):
@@ -238,7 +235,6 @@ def eliminar_registro(tree, frame):
         return
     item = tree.item(seleccion)
     datos = item['values']
-    # Confirmar eliminación
     confirmar = messagebox.askyesno("Confirmar", f"¿Quieres eliminar el registro {datos[2]}?")
     if confirmar:
         eliminar_municipio(datos[0], frame)
@@ -250,7 +246,6 @@ def editar_registro(frame, tree):
         return
     item = tree.item(seleccion)
     datos = item['values']
-    # Aquí abres una ventana o formulario con los datos para editar
     mostrar_pantalla_editar(frame, datos)
 
 def mostrar_pantalla_editar(frame, datos):
@@ -264,21 +259,20 @@ def mostrar_pantalla_editar(frame, datos):
     estado_combo = ttk.Combobox(frame, values=[f"{e[1]} (ID: {e[0]})" for e in estados], state="readonly")
     estado_combo.pack()
     
-    # Seleccionar automáticamente el estado actual
     for e in estados:
-        if e[1] == datos[1]:  # datos[1] = nombre del estado
+        if e[1] == datos[1]:
             estado_combo.set(f"{e[1]} (ID: {e[0]})")
             break
 
     tk.Label(frame, text="Nombre del Municipio:", bg=FONDO_GENERAL).pack()
     entrada_nombre = tk.Entry(frame)
     entrada_nombre.pack()
-    entrada_nombre.insert(0, datos[2])  # datos[2] = nombre municipio
+    entrada_nombre.insert(0, datos[2])
 
     tk.Label(frame, text="Estatus:", bg=FONDO_GENERAL).pack()
     entrada_estatus = tk.Entry(frame)
     entrada_estatus.pack()
-    entrada_estatus.insert(0, datos[3])  # datos[3] = estatus
+    entrada_estatus.insert(0, datos[3])
 
     id_municipio = datos[0]
 
