@@ -10,7 +10,6 @@ def crear_tab_horasE(notebook, id_usuario):
 
     tk.Label(frame, text="Módulo de Reporte de Horas", font=("Arial", 16, "bold"), bg='white').pack(pady=10)
 
-    # Entrada para buscar por ID de usuario
     buscar_frame = tk.Frame(frame, bg='white')
     buscar_frame.pack(pady=5)
 
@@ -18,7 +17,6 @@ def crear_tab_horasE(notebook, id_usuario):
         conexion = conectar()
         cursor = conexion.cursor()
 
-        # Primer SELECT: historial
         cursor.execute("""
             SELECT 
                 v.nombre AS nombre_proyecto,
@@ -38,7 +36,6 @@ def crear_tab_horasE(notebook, id_usuario):
         """, (id_usuario,))
         historial = cursor.fetchall()
 
-        # Segundo SELECT: total de horas
         cursor.execute("""
             SELECT SUM(ve.horas_aportadas)
             FROM Voluntariados_Estudiantes ve
@@ -51,7 +48,6 @@ def crear_tab_horasE(notebook, id_usuario):
         conexion.close()
         return historial, total_horas
 
-    # Tabla
     tabla_frame = tk.Frame(frame)
     tabla_frame.pack(expand=True, fill="both", padx=10, pady=10)
 
@@ -67,7 +63,6 @@ def crear_tab_horasE(notebook, id_usuario):
     scrollbar_y.pack(side="right", fill="y")
     tree.pack(side="left", fill="both", expand=True)
 
-    # Etiqueta de total de horas
     total_label = tk.Label(frame, text="", bg='white', font=("Arial", 12, "bold"))
     total_label.pack(pady=5)
 
@@ -85,7 +80,7 @@ def crear_tab_horasE(notebook, id_usuario):
             historial = []
 
         for fila in historial:
-            tree.insert("", "end", values=fila[:9])  # observaciones no se muestran directamente
+            tree.insert("", "end", values=fila[:9])
 
         total_label.config(text=f"Total de horas acumuladas: {total_horas} horas")
 
