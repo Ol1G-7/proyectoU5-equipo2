@@ -207,7 +207,7 @@ class AppAlumnos:
         messagebox.showinfo("Éxito", "Horas registradas correctamente.")
         self.horas_entry.delete(0, tk.END)
 
-# Para abrir la ventana desde el login:
+
 if __name__ == "__main__":
     root = tk.Tk()
     AppAlumnos(root, id_estudiante=1, nombre_estudiante="Juan Pérez")
