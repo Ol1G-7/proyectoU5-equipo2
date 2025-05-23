@@ -15,16 +15,14 @@ def obtener_datos_estados():
         cursor = con.cursor()
         cursor.execute("SELECT id, nombre, status FROM Estados")
         datos = cursor.fetchall()
-        return datos if datos else []  # Nunca retornará None
+        return datos if datos else [] 
     finally:
         con.close()
 
 def iniciar_modulo_estados(frame_contenido):
-    # Limpia el contenido anterior si es necesario
     for widget in frame_contenido.winfo_children():
         widget.destroy()
 
-    # Y luego llama a la pantalla principal en ese frame
     mostrar_pantalla_principal(frame_contenido)
 
 def limpiar_frame(frame):
@@ -110,7 +108,6 @@ def mostrar_pantalla_principal(frame):
 
     entrada_busqueda.bind("<KeyRelease>", lambda event: filtrar_proyectos())
     
-    # Tabla
     tabla_frame = tk.Frame(frame)
     tabla_frame.pack(expand=True, fill="both", padx=10, pady=10)
 
@@ -145,7 +142,6 @@ def mostrar_pantalla_principal(frame):
 
     mostrar_proyectos()
 
-    # Botones
     frame_btns = tk.Frame(frame, bg=FONDO_GENERAL)
     frame_btns.pack(pady=10)
 
@@ -184,7 +180,6 @@ def eliminar_registro(tree, frame):
         return
     item = tree.item(seleccion)
     datos = item['values']
-    # Confirmar eliminación
     confirmar = messagebox.askyesno("Confirmar", f"¿Quieres eliminar el registro {datos[1]}?")
     if confirmar:
         eliminar_estado(datos[0], frame)
@@ -196,7 +191,6 @@ def editar_registro(frame, tree):
         return
     item = tree.item(seleccion)
     datos = item['values']
-    # Aquí abres una ventana o formulario con los datos para editar
     mostrar_pantalla_editar(frame, datos)
 
 def mostrar_pantalla_editar(frame, datos):
@@ -207,14 +201,14 @@ def mostrar_pantalla_editar(frame, datos):
     tk.Label(frame, text="Nombre del Estado:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(pady=5)
     entrada_nombre = tk.Entry(frame)
     entrada_nombre.pack(pady=5)
-    entrada_nombre.insert(0, datos[1])  # datos[1] = Nombre
+    entrada_nombre.insert(0, datos[1]) 
 
     tk.Label(frame, text="Estatus:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(pady=5)
     entrada_estatus = tk.Entry(frame)
     entrada_estatus.pack(pady=5)
-    entrada_estatus.insert(0, datos[2])  # datos[2] = Estatus
+    entrada_estatus.insert(0, datos[2])
     
-    id_estado = datos[0]  # Guardar el ID del estado a editar
+    id_estado = datos[0]
     
     ttk.Button(
         frame,
