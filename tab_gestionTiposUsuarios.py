@@ -20,11 +20,9 @@ def obtener_datos_tipos_usuarios():
         con.close()
 
 def iniciar_modulo_tipos_usuarios(frame_contenido):
-    # Limpia el contenido anterior si es necesario
     for widget in frame_contenido.winfo_children():
         widget.destroy()
 
-    # Y luego llama a la pantalla principal en ese frame
     mostrar_pantalla_principal(frame_contenido)
 
 def limpiar_frame(frame):
@@ -61,7 +59,7 @@ def actualizar_tipo_usuario(id_usuario, nombre, nivel, descripcion, estatus, fra
         cursor.execute(query, (nombre, nivel, descripcion, estatus, id_usuario))
         con.commit()
         messagebox.showinfo("Éxito", "Tipo de usuario actualizado correctamente.")
-        mostrar_pantalla_principal(frame)  # Asegúrate de que esta función esté adaptada
+        mostrar_pantalla_principal(frame) 
     except Exception as e:
         messagebox.showerror("Error", f"Error al actualizar: {e}")
     finally:
@@ -80,7 +78,7 @@ def eliminar_tipo_usuario(id_usuario, frame):
         cursor.execute(query, (id_usuario,))
         con.commit()
         messagebox.showinfo("Éxito", "Tipo de usuario eliminado correctamente.")
-        mostrar_pantalla_principal(frame)  # También adapta esta si es necesario
+        mostrar_pantalla_principal(frame)
     except Exception as e:
         messagebox.showerror("Error", f"Error al eliminar: {e}")
     finally:
@@ -100,7 +98,6 @@ def mostrar_pantalla_principal(frame):
 
     tk.Label(frame, text="Módulo de Gestión de Tipos de Usuario", font=("Arial", 16, "bold"), bg=FONDO_GENERAL).pack(pady=10)
 
-    # Búsqueda
     busqueda_frame = tk.Frame(frame, bg=FONDO_GENERAL)
     busqueda_frame.pack(pady=5)
     tk.Label(busqueda_frame, text="Buscar por ID o Nombre del Tipo de Usuario:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(side="left")
@@ -109,7 +106,6 @@ def mostrar_pantalla_principal(frame):
 
     entrada_busqueda.bind("<KeyRelease>", lambda event: filtrar_tipos_usuarios())
 
-    # Tabla
     tabla_frame = tk.Frame(frame)
     tabla_frame.pack(expand=True, fill="both", padx=10, pady=10)
 
@@ -144,7 +140,6 @@ def mostrar_pantalla_principal(frame):
 
     mostrar_tipos_usuarios()
 
-    # Botones
     frame_btns = tk.Frame(frame, bg=FONDO_GENERAL)
     frame_btns.pack(pady=10)
 
@@ -160,27 +155,22 @@ def mostrar_pantalla_agregar(frame):
 
     tk.Label(frame, text="Agregar Tipo de Usuario", font=("Arial", 16, "bold"), bg=FONDO_GENERAL).pack(pady=10)
 
-    # Campo: Nombre
     tk.Label(frame, text="Nombre del Tipo de Usuario:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(pady=5)
     entrada_nombre = tk.Entry(frame)
     entrada_nombre.pack(pady=5)
 
-    # Campo: Nivel
     tk.Label(frame, text="Nivel:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(pady=5)
     entrada_nivel = tk.Entry(frame)
     entrada_nivel.pack(pady=5)
 
-    # Campo: Descripción
     tk.Label(frame, text="Descripción:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(pady=5)
     entrada_descripcion = tk.Entry(frame)
     entrada_descripcion.pack(pady=5)
 
-    # Campo: Estatus
     tk.Label(frame, text="Estatus:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(pady=5)
     entrada_estatus = tk.Entry(frame)
     entrada_estatus.pack(pady=5)
 
-    # Botón: Guardar
     ttk.Button(
         frame,
         text="Guardar",
@@ -194,7 +184,6 @@ def mostrar_pantalla_agregar(frame):
         )
     ).pack(pady=10)
 
-    # Botón: Volver
     tk.Button(frame, text="← Volver", bg="lightgray", command=lambda: mostrar_pantalla_principal(frame)).pack(pady=10)
 
 def eliminar_registro(tree, frame):
@@ -204,7 +193,6 @@ def eliminar_registro(tree, frame):
         return
     item = tree.item(seleccion)
     datos = item['values']
-    # Confirmar eliminación
     confirmar = messagebox.askyesno("Confirmar", f"¿Quieres eliminar el registro {datos[1]}?")
     if confirmar:
         eliminar_tipo_usuario(datos[0], frame)
@@ -216,7 +204,6 @@ def editar_registro(frame, tree):
         return
     item = tree.item(seleccion)
     datos = item['values']
-    # Aquí abres una ventana o formulario con los datos para editar
     mostrar_pantalla_editar(frame, datos)
 
 def mostrar_pantalla_editar(frame, datos):
@@ -224,33 +211,28 @@ def mostrar_pantalla_editar(frame, datos):
 
     tk.Label(frame, text="Editar Tipo de Usuario", font=("Arial", 16, "bold"), bg=FONDO_GENERAL).pack(pady=10)
 
-    # Campo: Nombre
     tk.Label(frame, text="Nombre del Tipo de Usuario:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(pady=5)
     entrada_nombre = tk.Entry(frame)
     entrada_nombre.pack(pady=5)
-    entrada_nombre.insert(0, datos[1])  # datos[1] = Nombre
+    entrada_nombre.insert(0, datos[1])
 
-    # Campo: Nivel
     tk.Label(frame, text="Nivel:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(pady=5)
     entrada_nivel = tk.Entry(frame)
     entrada_nivel.pack(pady=5)
-    entrada_nivel.insert(0, datos[2])  # datos[2] = Nivel
+    entrada_nivel.insert(0, datos[2]) 
 
-    # Campo: Descripción
     tk.Label(frame, text="Descripción:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(pady=5)
     entrada_descripcion = tk.Entry(frame)
     entrada_descripcion.pack(pady=5)
-    entrada_descripcion.insert(0, datos[3])  # datos[3] = Descripción
+    entrada_descripcion.insert(0, datos[3]) 
 
-    # Campo: Estatus
     tk.Label(frame, text="Estatus:", bg=FONDO_GENERAL, font=('Segoe UI', 10)).pack(pady=5)
     entrada_estatus = tk.Entry(frame)
     entrada_estatus.pack(pady=5)
-    entrada_estatus.insert(0, datos[4])  # datos[4] = Estatus
+    entrada_estatus.insert(0, datos[4])  
 
-    id_tipo = datos[0]  # Guardar el ID del tipo de usuario a editar
+    id_tipo = datos[0]
 
-    # Botón: Guardar
     ttk.Button(
         frame,
         text="Guardar",
@@ -265,5 +247,4 @@ def mostrar_pantalla_editar(frame, datos):
         )
     ).pack(pady=10)
 
-    # Botón: Volver
     tk.Button(frame, text="← Volver", bg="lightgray", command=lambda: mostrar_pantalla_principal(frame)).pack(pady=10)
