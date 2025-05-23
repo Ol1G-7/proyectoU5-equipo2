@@ -1,5 +1,3 @@
-# app_administrador.py
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 from constantes import FONDO_GENERAL
@@ -83,14 +81,14 @@ class AppAdministrador:
         for modulo in modulos:
             ttk.Button(sidebar, text=modulo, command=lambda m=modulo: mostrar_modulo(m)).pack(fill="x", padx=10, pady=5)
 
-        mostrar_modulo("Estados")  # por defecto
+        mostrar_modulo("Estados")  
 
     def logout(self):
         self.root.destroy()
         root_login = tk.Tk()
-        # Asegúrate de importar o definir LoginVentana antes de usarla
+       
         try:
-            from login import LoginVentana  # Ajusta el nombre del módulo si es necesario
+            from login import LoginVentana  
         except ImportError:
             messagebox.showerror("Error", "No se pudo importar LoginVentana.")
             root_login.destroy()
@@ -98,7 +96,7 @@ class AppAdministrador:
         LoginVentana(root_login)
         root_login.mainloop()
         
-# Si quieres seguir usando este archivo individualmente
+
 if __name__ == "__main__":
     root = tk.Tk()
     AppAdministrador(root, id_administrador=1, nombre_administrador="Admin Demo")
